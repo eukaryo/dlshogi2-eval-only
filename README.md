@@ -76,18 +76,9 @@ golden 生成:
 dlshogi2-gen-goldens   --checkpoint /path/to/checkpoint.pth   --positions-file positions.txt   --outdir goldens/
 ```
 
-## release / Zenodo pinning のすすめ方
-
-1. upstream の commit hash を `UPSTREAM_SNAPSHOT.md` に記録
-2. その commit から vendoring したファイル名を記録
-3. 採用した checkpoint の SHA256 を manifest に記録
-4. この repo を GitHub release
-5. Zenodo で DOI を付与
-
 ## ライセンス
 
-この repo 骨格は GPL-3.0 を前提にしています。
-`python-dlshogi2` 由来のコードを整理・改変して含めるため、
-公開時も GPL 整合で出す前提にしています。
+この repo は GPL-3.0 を前提にしています。
+`python-dlshogi2` 由来のコードを整理・改変して含んでいるためです。
 
 詳細は `NOTICE` と `THIRD_PARTY_LICENSES/` を見てください。
