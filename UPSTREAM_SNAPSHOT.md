@@ -1,6 +1,7 @@
 # Upstream snapshot record
 
 - Upstream repository: `https://github.com/TadaoYamaoka/python-dlshogi2`
+- Bootstrap mirror repository: `https://github.com/eukaryo/python-dlshogi2`
 - Upstream commit hash: `358a704eb3ebc87871fff36a436eaad233d85a44`
 - Snapshot date: `2026-03-21`
 - Vendored / adapted files:

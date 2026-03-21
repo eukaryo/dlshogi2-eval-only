@@ -42,6 +42,13 @@ pip install -U pip
 pip install -e .
 ```
 
+`pip install -e .` のあと、または `prepare_all.sh` 完了後に `.venv` を activate すると、
+次の console script が使えるようになります。
+
+- `dlshogi2-eval-position`
+- `dlshogi2-export-reference`
+- `dlshogi2-gen-goldens`
+
 ## 一括セットアップ
 
 研究用に依存導入・upstream snapshot 取得・checkpoint 取得・pytest・smoke inference / export / golden 生成までをまとめて回すには、repo 直下の `prepare_all.sh` を使えます。
@@ -49,6 +56,10 @@ pip install -e .
 ```bash
 ./prepare_all.sh
 ```
+
+既定では、**bootstrap 用の取得先は自分で管理する mirror fork**
+`https://github.com/eukaryo/python-dlshogi2` を使います。
+一方で provenance は `TadaoYamaoka/python-dlshogi2` に対して記録します。
 
 主な出力は `artifacts/prepare_all/` にまとまります。CPU 用 PyTorch wheel を明示したい場合は、たとえば次のように実行します。
 
@@ -62,31 +73,50 @@ TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu ./prepare_all.sh
 
 ```bash
 ./prepare_all.sh
-. .venv/bin/activate
-CHECKPOINT=third_party/upstream/python-dlshogi2-358a704/checkpoints/checkpoint.pth
+source .venv/bin/activate
+CHECKPOINT=third_party/upstream/eukaryo-python-dlshogi2-358a704eb3ebc87871fff36a436eaad233d85a44/checkpoints/checkpoint.pth
+UPSTREAM_COMMIT=358a704eb3ebc87871fff36a436eaad233d85a44
 ```
 
-盤面評価:
+評価:
 
 ```bash
-dlshogi2-eval-position --checkpoint "$CHECKPOINT" --position "position startpos moves 7g7f 3c3d" --topk 10
+dlshogi2-eval-position   --checkpoint "$CHECKPOINT"   --position "position startpos moves 7g7f 3c3d"   --topk 10   --pretty
 ```
 
-`torch.export` で参照グラフを保存:
+`torch.export` で参照グラフを保存し、`.pt2` と manifest と可読テキストをまとめて出す:
 
 ```bash
-dlshogi2-export-reference --checkpoint "$CHECKPOINT" --position "position startpos" --out out/reference.pt2
+dlshogi2-export-reference   --checkpoint "$CHECKPOINT"   --position "position startpos"   --out out/reference.pt2   --manifest out/reference.manifest.json   --text-dump-dir out   --text-dump-stem reference_startpos   --upstream-commit "$UPSTREAM_COMMIT"
 ```
 
-golden 生成（ここでいうgoldenとはPyTorch/CPUの参照実装で出した正解側の出力ファイル群のことです）:
+これで少なくとも次が出ます。
+
+- `out/reference.pt2`
+- `out/reference.manifest.json`
+- `out/reference_startpos.exported_program.txt`
+- `out/reference_startpos.graph_ir.txt`
+- `out/reference_startpos.graph_module_code.py`
+
+golden 生成（ここでいう golden とは、PyTorch/CPU の参照実装で出した **正解側の出力ファイル群** のことです）:
 
 ```bash
-dlshogi2-gen-goldens --checkpoint "$CHECKPOINT" --positions-file positions.txt --outdir goldens/
+dlshogi2-gen-goldens   --checkpoint "$CHECKPOINT"   --positions-file positions.txt   --outdir goldens/
 ```
+
+## release / Zenodo pinning のすすめ方
+
+1. `UPSTREAM_SNAPSHOT.md` に **元の upstream repository** と **bootstrap mirror repository** の両方を記録
+2. 採用した commit hash を 40 桁で記録
+3. vendored / adapted files の対応表を記録
+4. 採用した checkpoint の SHA256 を `UPSTREAM_SNAPSHOT.md` と `<out>.manifest.json` に記録
+5. この repo を GitHub release
+6. Zenodo で DOI を付与
 
 ## ライセンス
 
-この repo は GPL-3.0 を前提にしています。
-`python-dlshogi2` 由来のコードを整理・改変して含んでいるためです。
+この repo 骨格は GPL-3.0 を前提にしています。
+`python-dlshogi2` 由来のコードを整理・改変して含めるため、
+公開時も GPL 整合で出す前提にしています。
 
 詳細は `NOTICE` と `THIRD_PARTY_LICENSES/` を見てください。
