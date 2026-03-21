@@ -1,23 +1,14 @@
 # Upstream snapshot record
 
-Fill this in before publishing a frozen GitHub release / Zenodo release.
-
 - Upstream repository: `https://github.com/TadaoYamaoka/python-dlshogi2`
-- Upstream commit hash: `<FILL ME>`
-- Snapshot date: `<FILL ME>`
+- Upstream commit hash: `358a704eb3ebc87871fff36a436eaad233d85a44`
+- Snapshot date: `2026-03-21`
 - Vendored / adapted files:
-  - `pydlshogi2/features.py`
-  - `pydlshogi2/network/policy_value_resnet.py`
-- Checkpoint source path: `<FILL ME>`
-- Checkpoint SHA256: `<FILL ME>`
-- Notes on any local modifications: `<FILL ME>`
-
-## Suggested pinning workflow
-
-1. Clone upstream and checkout the exact commit.
-2. Copy the target files into this repo and review diffs.
-3. Download or vendor the checkpoint selected for the study.
-4. Compute SHA256 for the checkpoint and record it here.
-5. Run `dlshogi2-export-reference` and record the exported program hash.
-6. Tag the repo and create a GitHub release.
-7. Archive the release with Zenodo and note the DOI here.
+  - upstream `pydlshogi2/features.py` -> local `src/dlshogi2_eval/features.py`
+  - upstream `pydlshogi2/network/policy_value_resnet.py` -> local `src/dlshogi2_eval/model.py`
+- Checkpoint source path: `checkpoints/checkpoint.pth`
+- Checkpoint SHA256: `90eb745be1079a76371d0dd96009d712b9383631f85bcffb050169d28bd5afd5`
+- Notes on any local modifications:
+  - extracted eval-only functionality
+  - removed training / MCTS / engine-loop responsibilities
+  - added standalone CLI / export helpers / tests
