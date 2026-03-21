@@ -78,7 +78,7 @@ dlshogi2-eval-position --checkpoint "$CHECKPOINT" --position "position startpos 
 dlshogi2-export-reference --checkpoint "$CHECKPOINT" --position "position startpos" --out out/reference.pt2
 ```
 
-golden 生成:
+golden 生成（ここでいうgoldenとはPyTorch/CPUの参照実装で出した正解側の出力ファイル群のことです）:
 
 ```bash
 dlshogi2-gen-goldens --checkpoint "$CHECKPOINT" --positions-file positions.txt --outdir goldens/
