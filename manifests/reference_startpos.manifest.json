@@ -1,0 +1,16 @@
+{
+  "checkpoint_path": "/mnt/c/dlshogi2_eval_only_repo/third_party/upstream/python-dlshogi2-358a704/checkpoints/checkpoint.pth",
+  "checkpoint_sha256": "90eb745be1079a76371d0dd96009d712b9383631f85bcffb050169d28bd5afd5",
+  "example_input_sha256": "01ca06f26d178966c7b494f1d27d2b25a8f0233e1421589d3874b8f223e9bff2",
+  "example_position": "position startpos",
+  "example_sfen": null,
+  "graph_sha256": "c6a0f35d1bd8308eecfab71327a22b7100065df86ae66780ca353cb69f155e9e",
+  "model_class": "PolicyValueNetwork",
+  "model_config": {
+    "blocks": 10,
+    "channels": 192,
+    "fcl": 256
+  },
+  "state_dict_sha256": "414182d3495e3696163034d698a251dafd61bac59db4202efb70d1ae608fb5a8",
+  "upstream_commit": "358a704"
+}
