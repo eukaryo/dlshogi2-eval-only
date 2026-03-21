@@ -58,22 +58,30 @@ TORCH_INDEX_URL=https://download.pytorch.org/whl/cpu ./prepare_all.sh
 
 ## 使い方
 
-評価:
+準備:
 
 ```bash
-dlshogi2-eval-position   --checkpoint /path/to/checkpoint.pth   --position "position startpos moves 7g7f 3c3d"   --topk 10
+./prepare_all.sh
+. .venv/bin/activate
+CHECKPOINT=third_party/upstream/python-dlshogi2-358a704/checkpoints/checkpoint.pth
+```
+
+盤面評価:
+
+```bash
+dlshogi2-eval-position --checkpoint "$CHECKPOINT" --position "position startpos moves 7g7f 3c3d" --topk 10
 ```
 
 `torch.export` で参照グラフを保存:
 
 ```bash
-dlshogi2-export-reference   --checkpoint /path/to/checkpoint.pth   --position "position startpos"   --out out/reference.pt2
+dlshogi2-export-reference --checkpoint "$CHECKPOINT" --position "position startpos" --out out/reference.pt2
 ```
 
 golden 生成:
 
 ```bash
-dlshogi2-gen-goldens   --checkpoint /path/to/checkpoint.pth   --positions-file positions.txt   --outdir goldens/
+dlshogi2-gen-goldens --checkpoint "$CHECKPOINT" --positions-file positions.txt --outdir goldens/
 ```
 
 ## ライセンス
