@@ -78,7 +78,7 @@ CHECKPOINT=third_party/upstream/eukaryo-python-dlshogi2-358a704eb3ebc87871fff36a
 UPSTREAM_COMMIT=358a704eb3ebc87871fff36a436eaad233d85a44
 ```
 
-評価:
+盤面評価:
 
 ```bash
 dlshogi2-eval-position   --checkpoint "$CHECKPOINT"   --position "position startpos moves 7g7f 3c3d"   --topk 10   --pretty
