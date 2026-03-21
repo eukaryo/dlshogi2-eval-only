@@ -1,0 +1,18 @@
+This repository is an eval-only extraction scaffold derived from the public
+`python-dlshogi2` project by Tadao Yamaoka.
+
+Upstream project:
+  https://github.com/TadaoYamaoka/python-dlshogi2
+
+Derived / adapted files in this scaffold:
+  - src/dlshogi2_eval/features.py
+  - src/dlshogi2_eval/model.py
+
+The intent is to preserve the reference feature encoding and policy/value
+network while removing training, MCTS, and engine-specific code.
+
+Before publishing a frozen release, fill in `UPSTREAM_SNAPSHOT.md` with:
+  - upstream repository URL
+  - upstream commit hash
+  - exact vendored paths
+  - checkpoint artifact hash(es)

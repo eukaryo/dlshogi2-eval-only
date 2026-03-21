@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dlshogi2-eval-only"
+version = "0.1.0"
+description = "Eval-only reference extraction of python-dlshogi2 for dense policy/value inference and export"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "GPL-3.0"}
+authors = [
+  {name = "OpenAI scaffold generator"}
+]
+dependencies = [
+  "numpy>=1.24",
+  "torch>=2.1",
+  "cshogi>=0.8",
+]
+keywords = ["shogi", "dlshogi", "policy-value", "torch.export", "torch.fx"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8",
+]
+
+[project.scripts]
+dlshogi2-eval-position = "dlshogi2_eval.cli_eval_position:main"
+dlshogi2-export-reference = "dlshogi2_eval.cli_export_reference:main"
+dlshogi2-gen-goldens = "dlshogi2_eval.cli_gen_goldens:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.package-data]
+dlshogi2_eval = ["py.typed"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
