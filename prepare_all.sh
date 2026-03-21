@@ -264,12 +264,14 @@ if [[ "$RUN_SMOKE" == "1" ]]; then
     --topk 10 \
     --pretty > "$ARTIFACT_DIR/smoke_eval.json"
 
-  log "Exporting reference program."
+  log "Exporting reference program and human-readable text dumps."
   "$VENV_PY" -m dlshogi2_eval.cli_export_reference \
     --checkpoint "$CHECKPOINT_PATH" \
     --position "$EXPORT_POSITION" \
     --out "$ARTIFACT_DIR/reference_startpos.pt2" \
     --manifest "$ARTIFACT_DIR/reference_startpos.manifest.json" \
+    --text-dump-dir "$ARTIFACT_DIR" \
+    --text-dump-stem "reference_startpos" \
     --upstream-commit "$UPSTREAM_COMMIT"
 
   cat > "$ARTIFACT_DIR/positions.txt" <<'EOF_POS'
@@ -317,6 +319,9 @@ Artifacts: $ARTIFACT_DIR
 Upstream commit: $UPSTREAM_COMMIT
 Checkpoint: $CHECKPOINT_PATH
 Checkpoint SHA256: $CHECKPOINT_SHA256
+ExportedProgram text: $ARTIFACT_DIR/reference_startpos.exported_program.txt
+Graph IR text: $ARTIFACT_DIR/reference_startpos.graph_ir.txt
+GraphModule code: $ARTIFACT_DIR/reference_startpos.graph_module_code.py
 EOF_SUM
 
 log "Done. Summary:"
