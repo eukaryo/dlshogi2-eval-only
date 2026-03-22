@@ -1,6 +1,6 @@
 # dlshogi2-eval-only
 
-`python-dlshogi2` から **評価関数だけ**を切り出して、
+[`python-dlshogi2`](https://github.com/eukaryo/python-dlshogi2) （fork元: https://github.com/TadaoYamaoka/python-dlshogi2 ）から **評価関数だけ**を切り出して、
 
 - 将棋盤面 `->` feature tensor
 - feature tensor `->` dense policy logits / raw value logit
