@@ -172,6 +172,9 @@ dlshogi2-eval-position \
   --pretty
 ```
 
+`--pretty` は **JSON を人間が読みやすいようにインデント付きで整形して出力する** オプションです。  
+付けない場合は 1 行の compact JSON を出します。端末で目視確認したいときや、`> out.json` で読みやすい JSON ファイルを保存したいときに使ってください。
+
 返る JSON は概ね次の形です。
 
 ```json
@@ -528,6 +531,25 @@ dlshogi2-interpret-outputs \
 
 ---
 
+## 補足: よく使う出力オプション
+
+### `--pretty`
+
+`dlshogi2-eval-position` と `dlshogi2-interpret-outputs` では、標準出力として JSON を返します。  
+`--pretty` を付けると、その JSON を **改行とインデント付きの human-readable な形式** で出します。
+
+- `--pretty` あり
+  - 端末で読みやすい
+  - `> result.json` したときも目で追いやすい
+- `--pretty` なし
+  - 1 行の compact JSON
+  - 他のスクリプトに食わせる用途ではこちらでもよい
+
+このオプションは **出力の見た目だけを変えます**。評価結果そのものは変わりません。
+
+---
+
+
 ## 6. 典型的な比較ワークフロー
 
 ### A. PyTorch 参照実装だけをまず確認する
@@ -645,7 +667,14 @@ PY
 
 ---
 
-## 8. release / Zenodo pinning のすすめ方
+## 8. ライセンス
+
+この repo 骨格は GPL-3.0 を前提にしています。
+`python-dlshogi2` 由来のコードを整理・改変して含めるため、公開時も GPL 整合で出す前提にしています。
+
+詳細は `NOTICE` と `THIRD_PARTY_LICENSES/` を見てください。
+<!--
+## 9. release / Zenodo pinning のすすめ方
 
 1. `UPSTREAM_SNAPSHOT.md` に **元の upstream repository** と **bootstrap mirror repository** の両方を記録
 2. 採用した commit hash を 40 桁で記録
@@ -661,11 +690,4 @@ package export を使う場合は、次も残しておくと便利です。
 - package id
 - case ごとの input / output hash
 
----
-
-## 9. ライセンス
-
-この repo 骨格は GPL-3.0 を前提にしています。
-`python-dlshogi2` 由来のコードを整理・改変して含めるため、公開時も GPL 整合で出す前提にしています。
-
-詳細は `NOTICE` と `THIRD_PARTY_LICENSES/` を見てください。
+--- -->
