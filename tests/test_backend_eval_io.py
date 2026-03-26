@@ -14,7 +14,7 @@ from dlshogi2_eval.infer import (
     precision_name_to_torch_dtype,
     raw_output_arrays_from_dense,
 )
-from dlshogi2_eval.openheart_interpret import load_openheart_outputs
+from dlshogi2_eval.output_interpret import load_external_outputs
 
 
 def test_precision_name_to_torch_dtype() -> None:
@@ -64,7 +64,7 @@ def test_make_backend_payload_contains_backend_block() -> None:
     assert payload["legal"]["num_legal_moves"] == 0
 
 
-def test_load_openheart_outputs_from_npz_and_dir(tmp_path: Path) -> None:
+def test_load_external_outputs_from_npz_and_dir(tmp_path: Path) -> None:
     arrays = {
         "policy_logits": np.arange(2187, dtype=np.float32).reshape(1, 2187),
         "value_logit": np.array([[0.5]], dtype=np.float32),
@@ -72,7 +72,7 @@ def test_load_openheart_outputs_from_npz_and_dir(tmp_path: Path) -> None:
     npz_path = tmp_path / "outputs.npz"
     np.savez(npz_path, **arrays)
 
-    loaded_a = load_openheart_outputs(outputs_npz=npz_path)
+    loaded_a = load_external_outputs(outputs_npz=npz_path)
     assert loaded_a["policy_logits"].shape == (1, 2187)
     assert loaded_a["value_logit"].shape == (1, 1)
 
@@ -80,6 +80,6 @@ def test_load_openheart_outputs_from_npz_and_dir(tmp_path: Path) -> None:
     run_dir.mkdir()
     np.save(run_dir / "policy_logits.npy", arrays["policy_logits"])
     np.save(run_dir / "value_logit.npy", arrays["value_logit"])
-    loaded_b = load_openheart_outputs(run_dir=run_dir)
+    loaded_b = load_external_outputs(run_dir=run_dir)
     assert np.allclose(loaded_b["policy_logits"], arrays["policy_logits"])
     assert np.allclose(loaded_b["value_logit"], arrays["value_logit"])

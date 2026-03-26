@@ -14,13 +14,13 @@ from .infer import (
 )
 from .loader import load_model_from_checkpoint
 from .model import PolicyValueNetwork
-from .openheart_interpret import interpret_openheart_outputs, load_openheart_outputs
-from .openheart_package import (
-    OpenHeartPackageArtifacts,
-    build_openheart_package_id,
-    export_openheart_package,
+from .output_interpret import interpret_external_outputs, load_external_outputs
+from .model_package import (
+    ModelPackageArtifacts,
+    build_model_package_id,
+    export_model_package,
     extract_torch_export_bindings,
-    validate_openheart_package_dir,
+    validate_model_package_dir,
 )
 
 __all__ = [
@@ -38,13 +38,13 @@ __all__ = [
     "make_backend_payload",
     "precision_name_to_torch_dtype",
     "load_model_from_checkpoint",
-    "load_openheart_outputs",
-    "interpret_openheart_outputs",
-    "OpenHeartPackageArtifacts",
-    "build_openheart_package_id",
-    "export_openheart_package",
+    "load_external_outputs",
+    "interpret_external_outputs",
+    "ModelPackageArtifacts",
+    "build_model_package_id",
+    "export_model_package",
     "extract_torch_export_bindings",
-    "validate_openheart_package_dir",
+    "validate_model_package_dir",
 ]
 
 __version__ = "0.2.0"
