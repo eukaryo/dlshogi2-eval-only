@@ -36,6 +36,7 @@ dlshogi2-eval-position = "dlshogi2_eval.cli_eval_position:main"
 dlshogi2-export-reference = "dlshogi2_eval.cli_export_reference:main"
 dlshogi2-gen-goldens = "dlshogi2_eval.cli_gen_goldens:main"
 dlshogi2-export-openheart-package = "dlshogi2_eval.cli_export_openheart_package:main"
+dlshogi2-interpret-openheart = "dlshogi2_eval.cli_interpret_openheart:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
