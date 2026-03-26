@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Mapping
 
 import numpy as np
 import torch
@@ -11,10 +11,21 @@ import torch
 from .model import PolicyValueNetwork
 
 
-
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
 
+
+def canonical_json_bytes(value: Any) -> bytes:
+    return json.dumps(
+        value,
+        ensure_ascii=False,
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+
+
+def sha256_jsonable(value: Any) -> str:
+    return sha256_bytes(canonical_json_bytes(value))
 
 
 def sha256_file(path: str | Path, chunk_size: int = 1 << 20) -> str:
@@ -28,8 +39,7 @@ def sha256_file(path: str | Path, chunk_size: int = 1 << 20) -> str:
     return h.hexdigest()
 
 
-
-def sha256_state_dict(state_dict: dict[str, torch.Tensor]) -> str:
+def sha256_state_dict(state_dict: Mapping[str, torch.Tensor]) -> str:
     h = hashlib.sha256()
     for name in sorted(state_dict.keys()):
         tensor = state_dict[name].detach().cpu().contiguous()
@@ -40,17 +50,34 @@ def sha256_state_dict(state_dict: dict[str, torch.Tensor]) -> str:
     return h.hexdigest()
 
 
+def sha256_named_arrays(arrays: Mapping[str, np.ndarray]) -> str:
+    h = hashlib.sha256()
+    for name in sorted(arrays.keys()):
+        array = np.ascontiguousarray(np.asarray(arrays[name]))
+        h.update(name.encode("utf-8"))
+        h.update(np.dtype(array.dtype).str.encode("utf-8"))
+        h.update(json.dumps(list(array.shape)).encode("utf-8"))
+        h.update(array.tobytes())
+    return h.hexdigest()
+
 
 def graph_sha256(exported_program: torch.export.ExportedProgram) -> str:
     graph_text = str(exported_program.graph)
     return sha256_bytes(graph_text.encode("utf-8"))
 
 
-
 def example_input_sha256(example_input: torch.Tensor) -> str:
     arr = example_input.detach().cpu().contiguous().numpy()
     return sha256_bytes(arr.tobytes())
 
+
+def dtype_to_manifest_string(dtype: np.dtype[Any] | torch.dtype | str | type[Any]) -> str:
+    if isinstance(dtype, torch.dtype):
+        text = str(dtype)
+        if text.startswith("torch."):
+            return text[len("torch.") :]
+        return text
+    return np.dtype(dtype).name
 
 
 def build_reference_manifest(
@@ -79,7 +106,6 @@ def build_reference_manifest(
         "example_sfen": example_sfen,
         "upstream_commit": upstream_commit,
     }
-
 
 
 def dump_manifest_json(manifest: dict[str, Any], path: str | Path) -> None:
